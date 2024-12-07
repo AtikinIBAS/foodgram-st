@@ -71,48 +71,10 @@ paths:
           $ref: '#/components/responses/ValidationError'
       tags:
         - Пользователи
-  /api/tags/:
-    get:
-      operationId: Cписок тегов
-      description: ''
-      parameters: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tag'
-          description: ''
-      tags:
-        - Теги
-  /api/tags/{id}/:
-    get:
-      operationId: Получение тега
-      description: ''
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: "Уникальный идентификатор этого Тега."
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Tag'
-          description: ''
-        '404':
-          $ref: '#/components/responses/NotFound'
-      tags:
-        - Теги
   /api/recipes/:
     get:
       operationId: Список рецептов
-      description: Страница доступна всем пользователям. Доступна фильтрация по избранному, автору, списку покупок и тегам.
+      description: Страница доступна всем пользователям. Доступна фильтрация по избранному, автору и списку покупок.
       parameters:
         - name: page
           required: false
@@ -146,16 +108,6 @@ paths:
           description: Показывать рецепты только автора с указанным id.
           schema:
             type: integer
-        - name: tags
-          required: false
-          in: query
-          description: Показывать рецепты только с указанными тегами (по slug)
-          example: 'lunch&tags=breakfast'
-
-          schema:
-            type: array
-            items:
-              type: string
       responses:
         '200':
           content:
@@ -844,24 +796,6 @@ components:
           description: 'Ссылка на аватар'
           example: 'http://foodgram.example.org/media/users/image.png'
 
-    Tag:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          maxLength: 32
-          description: 'Уникальное название'
-          example: 'Завтрак'
-        slug:
-          type: string
-          nullable: true
-          maxLength: 32
-          pattern: ^[-a-zA-Z0-9_]+$
-          description: 'Уникальный слаг'
-          example: 'breakfast'
     RecipeList:
       type: object
       properties:
@@ -869,12 +803,6 @@ components:
           type: integer
           readOnly: true
           description: 'Уникальный id'
-        tags:
-          description: 'Список тегов'
-          readOnly: true
-          type: array
-          items:
-            $ref: '#/components/schemas/Tag'
         author:
           readOnly: true
           $ref: '#/components/schemas/User'
@@ -1150,12 +1078,6 @@ components:
             required:
               - id
               - amount
-        tags:
-          description: 'Список id тегов'
-          type: array
-          example: [1, 2]
-          items:
-            type: integer
         image:
           description: 'Картинка, закодированная в Base64'
           example: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg=='
@@ -1174,7 +1096,6 @@ components:
           minimum: 1
       required:
         - ingredients
-        - tags
         - image
         - name
         - text
@@ -1203,12 +1124,6 @@ components:
             required:
               - id
               - amount
-        tags:
-          description: 'Список id тегов'
-          type: array
-          example: [1, 2]
-          items:
-            type: integer
         image:
           description: 'Картинка, закодированная в Base64'
           example: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg=='
@@ -1227,7 +1142,6 @@ components:
           minimum: 1
       required:
         - ingredients
-        - tags
         - name
         - text
         - cooking_time
