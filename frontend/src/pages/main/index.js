@@ -13,16 +13,13 @@ const HomePage = ({ updateOrders }) => {
     setRecipesCount,
     recipesPage,
     setRecipesPage,
-    tagsValue,
-    setTagsValue,
-    handleTagsChange,
     handleLike,
     handleAddToCart
   } = useRecipes()
 
-  const getRecipes = ({ page = 1, tags }) => {
+  const getRecipes = ({ page = 1 }) => {
     api
-      .getRecipes({ page, tags })
+      .getRecipes({ page })
       .then(res => {
         const { results, count } = res
         setRecipes(results)
@@ -31,15 +28,8 @@ const HomePage = ({ updateOrders }) => {
   }
 
   useEffect(_ => {
-    getRecipes({ page: recipesPage, tags: tagsValue })
-  }, [recipesPage, tagsValue])
-
-  useEffect(_ => {
-    api.getTags()
-      .then(tags => {
-        setTagsValue(tags.map(tag => ({ ...tag, value: true })))
-      })
-  }, [])
+    getRecipes({ page: recipesPage })
+  }, [recipesPage])
 
 
   return <Main>
@@ -51,13 +41,6 @@ const HomePage = ({ updateOrders }) => {
       </MetaTags>
       <div className={styles.title}>
         <Title title='Рецепты' />
-        <CheckboxGroup
-          values={tagsValue}
-          handleChange={value => {
-            setRecipesPage(1)
-            handleTagsChange(value)
-          }}
-        />
       </div>
       {recipes.length > 0 && <CardList>
         {recipes.map(card => <Card

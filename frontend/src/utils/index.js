@@ -9,7 +9,6 @@ export {
   hexToRgba,
   useForm,
   useFormWithValidation,
-  useTags,
   useRecipes,
   useRecipe,
   useSubscriptions

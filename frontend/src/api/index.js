@@ -130,23 +130,16 @@ class Api {
     limit = 6,
     is_favorited = 0,
     is_in_shopping_cart = 0,
-    author,
-    tags,
+    author
   } = {}) {
     const token = localStorage.getItem("token");
     const authorization = token ? { authorization: `Token ${token}` } : {};
-    const tagsString = tags
-      ? tags
-          .filter((tag) => tag.value)
-          .map((tag) => `&tags=${tag.slug}`)
-          .join("")
-      : "";
     return fetch(
       `/api/recipes/?page=${page}&limit=${limit}${
         author ? `&author=${author}` : ""
       }${is_favorited ? `&is_favorited=${is_favorited}` : ""}${
         is_in_shopping_cart ? `&is_in_shopping_cart=${is_in_shopping_cart}` : ""
-      }${tagsString}`,
+      }`,
       {
         method: "GET",
         headers: {
@@ -172,7 +165,6 @@ class Api {
   createRecipe({
     name = "",
     image,
-    tags = [],
     cooking_time = 0,
     text = "",
     ingredients = [],
@@ -187,7 +179,6 @@ class Api {
       body: JSON.stringify({
         name,
         image,
-        tags,
         cooking_time,
         text,
         ingredients,
@@ -196,7 +187,7 @@ class Api {
   }
 
   updateRecipe(
-    { name, recipe_id, image, tags, cooking_time, text, ingredients },
+    { name, recipe_id, image, cooking_time, text, ingredients },
     wasImageUpdated
   ) {
     // image was changed
@@ -211,7 +202,6 @@ class Api {
         name,
         id: recipe_id,
         image: wasImageUpdated ? image : undefined,
-        tags,
         cooking_time: Number(cooking_time),
         text,
         ingredients,
@@ -322,15 +312,6 @@ class Api {
     }).then(this.checkResponse);
   }
 
-  // tags
-  getTags() {
-    return fetch(`/api/tags/`, {
-      method: "GET",
-      headers: {
-        ...this._headers,
-      },
-    }).then(this.checkResponse);
-  }
 
   addToOrders({ id }) {
     const token = localStorage.getItem("token");

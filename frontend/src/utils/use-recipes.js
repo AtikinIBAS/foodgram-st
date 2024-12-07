@@ -6,7 +6,6 @@ export default function useRecipes () {
   const [ recipes, setRecipes ] = useState([])
   const [ recipesCount, setRecipesCount ] = useState(0)
   const [ recipesPage, setRecipesPage ] = useState(1)
-  const { value: tagsValue, handleChange: handleTagsChange, setValue: setTagsValue } = useTags()
 
   const handleLike = ({ id, toLike = true }) => {
     const method = toLike ? api.addToFavorites.bind(api) : api.removeFromFavorites.bind(api)
@@ -54,10 +53,7 @@ export default function useRecipes () {
     setRecipesCount,
     recipesPage,
     setRecipesPage,
-    tagsValue,
     handleLike,
     handleAddToCart,
-    handleTagsChange,
-    setTagsValue
   }
 }
