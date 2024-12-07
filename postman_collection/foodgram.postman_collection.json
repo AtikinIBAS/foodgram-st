@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "5af19dc6-dd3f-42f1-ac53-33bb3a82df28",
+		"_postman_id": "530f87e9-6f95-42da-8389-5a431b9dc149",
 		"name": "diploma",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "16131548"
+		"_exporter_id": "39358703"
 	},
 	"item": [
 		{
@@ -2589,588 +2589,6 @@
 			]
 		},
 		{
-			"name": "tags",
-			"item": [
-				{
-					"name": "get_tags_info",
-					"item": [
-						{
-							"name": "get_tag_list // No Auth",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const responseData = pm.response.json();",
-											"const responseSchema = {",
-											"    \"type\": \"array\",",
-											"    \"items\": {",
-											"        \"type\": \"object\",",
-											"        \"properties\": {",
-											"            \"id\": {\"type\": \"number\"},",
-											"            \"name\": {\"type\": \"string\"},",
-											"            \"slug\": {\"type\": \"string\"},",
-											"        },",
-											"        \"required\": [\"id\", \"name\", \"slug\"],",
-											"        \"additionalProperties\": false",
-											"    }",
-											"};",
-											"",
-											"pm.test(\"Статус-код ответа должен быть 200\", function () {",
-											"    pm.expect(",
-											"        pm.response.status,",
-											"        \"Запрос незарегистрированного пользователя должен вернуть ответ со статус-кодом 200\"",
-											"    ).to.be.eql(\"OK\");",
-											"});",
-											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
-											"    pm.response.to.have.jsonSchema(responseSchema);",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "noauth"
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/api/tags/",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"tags",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "get_tag_list // User",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const responseData = pm.response.json();",
-											"const responseSchema = {",
-											"    \"type\": \"array\",",
-											"    \"items\": {",
-											"        \"type\": \"object\",",
-											"        \"properties\": {",
-											"            \"id\": {\"type\": \"number\"},",
-											"            \"name\": {\"type\": \"string\"},",
-											"",
-											"            \"slug\": {\"type\": \"string\"},",
-											"        },",
-											"        \"required\": [\"id\", \"name\", \"slug\"],",
-											"        \"additionalProperties\": false",
-											"    }",
-											"};",
-											"",
-											"pm.test(\"Статус-код ответа должен быть 200\", function () {",
-											"    pm.expect(",
-											"        pm.response.status,",
-											"        \"Запрос зарегистрированного пользователя должен вернуть ответ со статус-кодом 200\"",
-											"    ).to.be.eql(\"OK\");",
-											"});",
-											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
-											"    pm.response.to.have.jsonSchema(responseSchema);",
-											"    pm.expect(",
-											"        responseData.length >= 3,",
-											"        \"Создайте как минимум 3 тега для корректной работы коллекции запросов\"",
-											"    ).to.be.true;",
-											"    pm.collectionVariables.set(\"firstTagId\", responseData[0].id);",
-											"    pm.collectionVariables.set('firstTagSlug', responseData[0].slug);",
-											"    pm.collectionVariables.set(\"secondTagId\", responseData[1].id);",
-											"    pm.collectionVariables.set('secondTagSlug', responseData[1].slug);",
-											"    pm.collectionVariables.set(\"thirdTagId\", responseData[2].id);",
-											"    pm.collectionVariables.set('thirdTagSlug', responseData[2].slug);",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "apikey",
-									"apikey": [
-										{
-											"key": "value",
-											"value": "Token {{userToken}}",
-											"type": "string"
-										},
-										{
-											"key": "key",
-											"value": "Authorization",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/api/tags/",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"tags",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "get_tag_detail // No Auth",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const responseData = pm.response.json();",
-											"const responseSchema = {",
-											"    \"type\": \"object\",",
-											"    \"properties\": {",
-											"        \"id\": {\"type\": \"number\"},",
-											"        \"name\": {\"type\": \"string\"},",
-											"        \"slug\": {\"type\": \"string\"},",
-											"    },",
-											"    \"required\": [\"id\", \"name\", \"slug\"],",
-											"    \"additionalProperties\": false",
-											"};",
-											"",
-											"pm.test(\"Статус-код ответа должен быть 200\", function () {",
-											"    pm.expect(",
-											"        pm.response.status,",
-											"        \"Запрос незарегистрированного пользователя должен вернуть ответ со статус-кодом 200\"",
-											"    ).to.be.eql(\"OK\");",
-											"});",
-											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
-											"    pm.response.to.have.jsonSchema(responseSchema);",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "noauth"
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/api/tags/{{firstTagId}}/",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"tags",
-										"{{firstTagId}}",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "get_tag_detail // User",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const responseData = pm.response.json();",
-											"const responseSchema = {",
-											"    \"type\": \"object\",",
-											"    \"properties\": {",
-											"        \"id\": {\"type\": \"number\"},",
-											"        \"name\": {\"type\": \"string\"},",
-											"        \"slug\": {\"type\": \"string\"},",
-											"    },",
-											"    \"required\": [\"id\", \"name\", \"slug\"],",
-											"    \"additionalProperties\": false",
-											"};",
-											"",
-											"pm.test(\"Статус-код ответа должен быть 200\", function () {",
-											"    pm.expect(",
-											"        pm.response.status,",
-											"        \"Запрос незарегистрированного пользователя должен вернуть ответ со статус-кодом 200\"",
-											"    ).to.be.eql(\"OK\");",
-											"});",
-											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
-											"    pm.response.to.have.jsonSchema(responseSchema);",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "apikey",
-									"apikey": [
-										{
-											"key": "value",
-											"value": "Token {{userToken}}",
-											"type": "string"
-										},
-										{
-											"key": "key",
-											"value": "Authorization",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/api/tags/{{firstTagId}}/",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"tags",
-										"{{firstTagId}}",
-										""
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "tags_bad_requests",
-					"item": [
-						{
-							"name": "get_non_existing_tag // User",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Статус-код ответа должен быть 404\", function () {",
-											"    pm.expect(",
-											"        pm.response.status,",
-											"        \"Запрос запрос к `/api/tags/{tagId}/`, содержащий `id` несуществующего тега, должен вернуть ответ со статус-кодом 404\"",
-											"    ).to.be.eql(\"Not Found\");",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "apikey",
-									"apikey": [
-										{
-											"key": "value",
-											"value": "Token {{userToken}}",
-											"type": "string"
-										},
-										{
-											"key": "key",
-											"value": "Authorization",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/api/tags/9876/",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"tags",
-										"9876",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "create_tag // User",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Статус-код ответа должен быть 405\", function () {",
-											"    pm.expect(",
-											"        pm.response.status,",
-											"        \"Запрос на создание тега должен вернуть ответ со статус-кодом 405\"",
-											"    ).to.be.eql(\"Method Not Allowed\");",
-											"});",
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "apikey",
-									"apikey": [
-										{
-											"key": "value",
-											"value": "Token {{userToken}}",
-											"type": "string"
-										},
-										{
-											"key": "key",
-											"value": "Authorization",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"name\": \"Завтрак\",\n    \"slug\": \"breakfast\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/tags/",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"tags",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "put_tag // User",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Статус-код ответа должен быть 405\", function () {",
-											"    pm.expect(",
-											"        pm.response.status,",
-											"        \"Запрос на обновление тега должен вернуть ответ со статус-кодом 405\"",
-											"    ).to.be.eql(\"Method Not Allowed\");",
-											"});",
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "apikey",
-									"apikey": [
-										{
-											"key": "value",
-											"value": "Token {{userToken}}",
-											"type": "string"
-										},
-										{
-											"key": "key",
-											"value": "Authorization",
-											"type": "string"
-										}
-									]
-								},
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"name\": \"Завтрак\",\n    \"slug\": \"breakfast\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/tags/{{firstTagId}}/",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"tags",
-										"{{firstTagId}}",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "patch_tag // User",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Статус-код ответа должен быть 405\", function () {",
-											"    pm.expect(",
-											"        pm.response.status,",
-											"        \"Запрос на обновление тега должен вернуть ответ со статус-кодом 405\"",
-											"    ).to.be.eql(\"Method Not Allowed\");",
-											"});",
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "apikey",
-									"apikey": [
-										{
-											"key": "value",
-											"value": "Token {{userToken}}",
-											"type": "string"
-										},
-										{
-											"key": "key",
-											"value": "Authorization",
-											"type": "string"
-										}
-									]
-								},
-								"method": "PATCH",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"name\": \"Завтрак\",\n    \"slug\": \"breakfast\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/tags/{{firstTagId}}/",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"tags",
-										"{{firstTagId}}",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "delete_tag // User",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Статус-код ответа должен быть 405\", function () {",
-											"    pm.expect(",
-											"        pm.response.status,",
-											"        \"Запрос на удаление тега должен вернуть ответ со статус-кодом 405\"",
-											"    ).to.be.eql(\"Method Not Allowed\");",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "apikey",
-									"apikey": [
-										{
-											"key": "value",
-											"value": "Token {{userToken}}",
-											"type": "string"
-										},
-										{
-											"key": "key",
-											"value": "Authorization",
-											"type": "string"
-										}
-									]
-								},
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/api/tags/{{firstTagId}}/",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"tags",
-										"{{firstTagId}}",
-										""
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				}
-			],
-			"auth": {
-				"type": "noauth"
-			},
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
-		},
-		{
 			"name": "ingredients",
 			"item": [
 				{
@@ -3850,19 +3268,6 @@
 											"    \"type\": \"object\",",
 											"    \"properties\":{",
 											"        \"id\": {\"type\": \"number\"},",
-											"        \"tags\": {",
-											"            \"type\": \"array\",",
-											"            \"items\": {",
-											"                \"type\": \"object\",",
-											"                \"properties\": {",
-											"                    \"id\": {\"type\": \"number\"},",
-											"                    \"name\": {\"type\": \"string\"},",
-											"                    \"slug\": {\"type\": \"string\"},",
-											"                },",
-											"                \"required\": [\"id\", \"name\", \"slug\"],",
-											"                \"additionalProperties\": false",
-											"            }",
-											"        },",
 											"        \"author\": {",
 											"            \"type\": \"object\",",
 											"            \"properties\": {",
@@ -3899,7 +3304,7 @@
 											"        \"cooking_time\": {\"type\": \"number\"}",
 											"    },",
 											"    \"required\": [",
-											"        \"id\", \"tags\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
+											"        \"id\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
 											"        \"name\", \"image\", \"text\", \"cooking_time\"",
 											"    ],",
 											"    \"additionalProperties\": false",
@@ -3928,7 +3333,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    },\n    {\n      \"id\": {{secondIndredientId}},\n      \"amount\": {{secondIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n    {{firstTagId}},\n    {{secondTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Нечто съедобное (это не точно)\",\n  \"text\": \"Приготовьте как нибудь эти ингредиеты\",\n  \"cooking_time\": 5\n}",
+									"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    },\n    {\n      \"id\": {{secondIndredientId}},\n      \"amount\": {{secondIngredientAmount}}\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Нечто съедобное (это не точно)\",\n  \"text\": \"Приготовьте как-нибудь эти ингредиенты\",\n  \"cooking_time\": 5\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3961,19 +3366,6 @@
 											"    \"type\": \"object\",",
 											"    \"properties\":{",
 											"        \"id\": {\"type\": \"number\"},",
-											"        \"tags\": {",
-											"            \"type\": \"array\",",
-											"            \"items\": {",
-											"                \"type\": \"object\",",
-											"                \"properties\": {",
-											"                    \"id\": {\"type\": \"number\"},",
-											"                    \"name\": {\"type\": \"string\"},",
-											"                    \"slug\": {\"type\": \"string\"},",
-											"                },",
-											"                \"required\": [\"id\", \"name\", \"slug\"],",
-											"                \"additionalProperties\": false",
-											"            }",
-											"        },",
 											"        \"author\": {",
 											"            \"type\": \"object\",",
 											"            \"properties\": {",
@@ -4010,7 +3402,7 @@
 											"        \"cooking_time\": {\"type\": \"number\"}",
 											"    },",
 											"    \"required\": [",
-											"        \"id\", \"tags\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
+											"        \"id\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
 											"        \"name\", \"image\", \"text\", \"cooking_time\"",
 											"    ],",
 											"    \"additionalProperties\": false",
@@ -4039,7 +3431,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    },\n    {\n      \"id\": {{secondIndredientId}},\n      \"amount\": {{secondIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n    {{firstTagId}},\n    {{secondTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Еще одна попытка приготовить еду\",\n  \"text\": \"Вероятно стоит это смешать.\",\n  \"cooking_time\": 10\n}",
+									"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    },\n    {\n      \"id\": {{secondIndredientId}},\n      \"amount\": {{secondIngredientAmount}}\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Еще одна попытка приготовить еду\",\n  \"text\": \"Вероятно стоит это смешать.\",\n  \"cooking_time\": 10\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4072,19 +3464,6 @@
 											"    \"type\": \"object\",",
 											"    \"properties\":{",
 											"        \"id\": {\"type\": \"number\"},",
-											"        \"tags\": {",
-											"            \"type\": \"array\",",
-											"            \"items\": {",
-											"                \"type\": \"object\",",
-											"                \"properties\": {",
-											"                    \"id\": {\"type\": \"number\"},",
-											"                    \"name\": {\"type\": \"string\"},",
-											"                    \"slug\": {\"type\": \"string\"},",
-											"                },",
-											"                \"required\": [\"id\", \"name\", \"slug\"],",
-											"                \"additionalProperties\": false",
-											"            }",
-											"        },",
 											"        \"author\": {",
 											"            \"type\": \"object\",",
 											"            \"properties\": {",
@@ -4121,7 +3500,7 @@
 											"        \"cooking_time\": {\"type\": \"number\"}",
 											"    },",
 											"    \"required\": [",
-											"        \"id\", \"tags\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
+											"        \"id\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
 											"        \"name\", \"image\", \"text\", \"cooking_time\"",
 											"    ],",
 											"    \"additionalProperties\": false",
@@ -4150,7 +3529,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n    {{thirdTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Еда без дополнительной обработки\",\n  \"text\": \"Просто съесть\",\n  \"cooking_time\": 1\n}",
+									"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Еда без дополнительной обработки\",\n  \"text\": \"Просто съесть\",\n  \"cooking_time\": 1\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4183,19 +3562,6 @@
 											"    \"type\": \"object\",",
 											"    \"properties\":{",
 											"        \"id\": {\"type\": \"number\"},",
-											"        \"tags\": {",
-											"            \"type\": \"array\",",
-											"            \"items\": {",
-											"                \"type\": \"object\",",
-											"                \"properties\": {",
-											"                    \"id\": {\"type\": \"number\"},",
-											"                    \"name\": {\"type\": \"string\"},",
-											"                    \"slug\": {\"type\": \"string\"},",
-											"                },",
-											"                \"required\": [\"id\", \"name\", \"slug\"],",
-											"                \"additionalProperties\": false",
-											"            }",
-											"        },",
 											"        \"author\": {",
 											"            \"type\": \"object\",",
 											"            \"properties\": {",
@@ -4232,7 +3598,7 @@
 											"        \"cooking_time\": {\"type\": \"number\"}",
 											"    },",
 											"    \"required\": [",
-											"        \"id\", \"tags\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
+											"        \"id\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
 											"        \"name\", \"image\", \"text\", \"cooking_time\"",
 											"    ],",
 											"    \"additionalProperties\": false",
@@ -4261,7 +3627,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{secondIndredientId}},\n      \"amount\": {{secondIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n    {{firstTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Нечто жареное\",\n  \"text\": \"Жарить 10 минут\",\n  \"cooking_time\": 10\n}",
+									"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{secondIndredientId}},\n      \"amount\": {{secondIngredientAmount}}\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Нечто жареное\",\n  \"text\": \"Жарить 10 минут\",\n  \"cooking_time\": 10\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4294,19 +3660,6 @@
 											"    \"type\": \"object\",",
 											"    \"properties\":{",
 											"        \"id\": {\"type\": \"number\"},",
-											"        \"tags\": {",
-											"            \"type\": \"array\",",
-											"            \"items\": {",
-											"                \"type\": \"object\",",
-											"                \"properties\": {",
-											"                    \"id\": {\"type\": \"number\"},",
-											"                    \"name\": {\"type\": \"string\"},",
-											"                    \"slug\": {\"type\": \"string\"},",
-											"                },",
-											"                \"required\": [\"id\", \"name\", \"slug\"],",
-											"                \"additionalProperties\": false",
-											"            }",
-											"        },",
 											"        \"author\": {",
 											"            \"type\": \"object\",",
 											"            \"properties\": {",
@@ -4343,7 +3696,7 @@
 											"        \"cooking_time\": {\"type\": \"number\"}",
 											"    },",
 											"    \"required\": [",
-											"        \"id\", \"tags\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
+											"        \"id\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
 											"        \"name\", \"image\", \"text\", \"cooking_time\"",
 											"    ],",
 											"    \"additionalProperties\": false",
@@ -4387,7 +3740,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{secondIndredientId}},\n      \"amount\": {{secondIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n    {{secondTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Варёное нечто\",\n  \"text\": \"Варить 20 минут\",\n  \"cooking_time\": 25\n}",
+									"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{secondIndredientId}},\n      \"amount\": {{secondIngredientAmount}}\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Варёное нечто\",\n  \"text\": \"Варить 20 минут\",\n  \"cooking_time\": 25\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4469,19 +3822,6 @@
 											"                \"type\": \"object\",",
 											"                \"properties\":{",
 											"                    \"id\": {\"type\": \"number\"},",
-											"                    \"tags\": {",
-											"                        \"type\": \"array\",",
-											"                        \"items\": {",
-											"                            \"type\": \"object\",",
-											"                            \"properties\": {",
-											"                                \"id\": {\"type\": \"number\"},",
-											"                                \"name\": {\"type\": \"string\"},",
-											"                                \"slug\": {\"type\": \"string\"},",
-											"                            },",
-											"                            \"required\": [\"id\", \"name\", \"slug\"],",
-											"                            \"additionalProperties\": false",
-											"                        }",
-											"                    },",
 											"                    \"author\": {",
 											"                        \"type\": \"object\",",
 											"                        \"properties\": {",
@@ -4518,7 +3858,7 @@
 											"                    \"cooking_time\": {\"type\": \"number\"}",
 											"                },",
 											"                \"required\": [",
-											"                    \"id\", \"tags\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
+											"                    \"id\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
 											"                    \"name\", \"image\", \"text\", \"cooking_time\"",
 											"                ],",
 											"                \"additionalProperties\": false",
@@ -4587,19 +3927,6 @@
 											"                \"type\": \"object\",",
 											"                \"properties\":{",
 											"                    \"id\": {\"type\": \"number\"},",
-											"                    \"tags\": {",
-											"                        \"type\": \"array\",",
-											"                        \"items\": {",
-											"                            \"type\": \"object\",",
-											"                            \"properties\": {",
-											"                                \"id\": {\"type\": \"number\"},",
-											"                                \"name\": {\"type\": \"string\"},",
-											"                                \"slug\": {\"type\": \"string\"},",
-											"                            },",
-											"                            \"required\": [\"id\", \"name\", \"slug\"],",
-											"                            \"additionalProperties\": false",
-											"                        }",
-											"                    },",
 											"                    \"author\": {",
 											"                        \"type\": \"object\",",
 											"                        \"properties\": {",
@@ -4636,7 +3963,7 @@
 											"                    \"cooking_time\": {\"type\": \"number\"}",
 											"                },",
 											"                \"required\": [",
-											"                    \"id\", \"tags\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
+											"                    \"id\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
 											"                    \"name\", \"image\", \"text\", \"cooking_time\"",
 											"                ],",
 											"                \"additionalProperties\": false",
@@ -4717,19 +4044,6 @@
 											"                \"type\": \"object\",",
 											"                \"properties\":{",
 											"                    \"id\": {\"type\": \"number\"},",
-											"                    \"tags\": {",
-											"                        \"type\": \"array\",",
-											"                        \"items\": {",
-											"                            \"type\": \"object\",",
-											"                            \"properties\": {",
-											"                                \"id\": {\"type\": \"number\"},",
-											"                                \"name\": {\"type\": \"string\"},",
-											"                                \"slug\": {\"type\": \"string\"},",
-											"                            },",
-											"                            \"required\": [\"id\", \"name\", \"slug\"],",
-											"                            \"additionalProperties\": false",
-											"                        }",
-											"                    },",
 											"                    \"author\": {",
 											"                        \"type\": \"object\",",
 											"                        \"properties\": {",
@@ -4766,7 +4080,7 @@
 											"                    \"cooking_time\": {\"type\": \"number\"}",
 											"                },",
 											"                \"required\": [",
-											"                    \"id\", \"tags\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
+											"                    \"id\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
 											"                    \"name\", \"image\", \"text\", \"cooking_time\"",
 											"                ],",
 											"                \"additionalProperties\": false",
@@ -4864,19 +4178,6 @@
 											"                \"type\": \"object\",",
 											"                \"properties\":{",
 											"                    \"id\": {\"type\": \"number\"},",
-											"                    \"tags\": {",
-											"                        \"type\": \"array\",",
-											"                        \"items\": {",
-											"                            \"type\": \"object\",",
-											"                            \"properties\": {",
-											"                                \"id\": {\"type\": \"number\"},",
-											"                                \"name\": {\"type\": \"string\"},",
-											"                                \"slug\": {\"type\": \"string\"},",
-											"                            },",
-											"                            \"required\": [\"id\", \"name\", \"slug\"],",
-											"                            \"additionalProperties\": false",
-											"                        }",
-											"                    },",
 											"                    \"author\": {",
 											"                        \"type\": \"object\",",
 											"                        \"properties\": {",
@@ -4913,7 +4214,7 @@
 											"                    \"cooking_time\": {\"type\": \"number\"}",
 											"                },",
 											"                \"required\": [",
-											"                    \"id\", \"tags\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
+											"                    \"id\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
 											"                    \"name\", \"image\", \"text\", \"cooking_time\"",
 											"                ],",
 											"                \"additionalProperties\": false",
@@ -4998,183 +4299,6 @@
 							"response": []
 						},
 						{
-							"name": "get_recipes_list_with_two_tags_param // User",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const responseSchema = {",
-											"    \"type\": \"object\",",
-											"    \"required\": [\"count\", \"next\", \"previous\", \"results\"],",
-											"    \"additionalProperties\": false,",
-											"    \"properties\": {",
-											"        \"count\": {\"type\": \"number\"},",
-											"        \"next\": {\"type\": [\"string\", \"null\"]},",
-											"        \"previous\": {\"type\": [\"string\", \"null\"]},",
-											"        \"results\": {",
-											"            \"type\": \"array\",",
-											"            \"items\": {",
-											"                \"type\": \"object\",",
-											"                \"properties\":{",
-											"                    \"id\": {\"type\": \"number\"},",
-											"                    \"tags\": {",
-											"                        \"type\": \"array\",",
-											"                        \"items\": {",
-											"                            \"type\": \"object\",",
-											"                            \"properties\": {",
-											"                                \"id\": {\"type\": \"number\"},",
-											"                                \"name\": {\"type\": \"string\"},",
-											"                                \"slug\": {\"type\": \"string\"},",
-											"                            },",
-											"                            \"required\": [\"id\", \"name\", \"slug\"],",
-											"                            \"additionalProperties\": false",
-											"                        }",
-											"                    },",
-											"                    \"author\": {",
-											"                        \"type\": \"object\",",
-											"                        \"properties\": {",
-											"                            \"id\": {\"type\": \"number\"},",
-											"                            \"username\": {\"type\": \"string\"},",
-											"                            \"first_name\": {\"type\": \"string\"},",
-											"                            \"last_name\": {\"type\": \"string\"},",
-											"                            \"email\": {\"type\": \"string\"},",
-											"                            \"is_subscribed\": {\"type\": \"boolean\"},",
-											"                            \"avatar\": {\"type\": [\"string\", \"null\"]}",
-											"                        },",
-											"                        \"required\": [\"id\", \"username\", \"first_name\", \"last_name\", \"email\", \"is_subscribed\", \"avatar\"],",
-											"                        \"additionalProperties\": false",
-											"                    },",
-											"                    \"ingredients\": {",
-											"                        \"type\": \"array\",",
-											"                        \"items\": {",
-											"                            \"type\": \"object\",",
-											"                            \"properties\": {",
-											"                                \"id\": {\"type\": \"number\"},",
-											"                                \"name\": {\"type\": \"string\"},",
-											"                                \"measurement_unit\": {\"type\": \"string\"},",
-											"                                \"amount\": {\"type\": \"number\"}",
-											"                            },",
-											"                            \"required\": [\"id\", \"name\", \"measurement_unit\", \"amount\"],",
-											"                            \"additionalProperties\": false",
-											"                        }",
-											"                    },",
-											"                    \"is_favorited\": {\"type\": \"boolean\"},",
-											"                    \"is_in_shopping_cart\": {\"type\": \"boolean\"},",
-											"                    \"name\": {\"type\": \"string\"},",
-											"                    \"image\": {\"type\": \"string\"},",
-											"                    \"text\": {\"type\": \"string\"},",
-											"                    \"cooking_time\": {\"type\": \"number\"}",
-											"                },",
-											"                \"required\": [",
-											"                    \"id\", \"tags\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
-											"                    \"name\", \"image\", \"text\", \"cooking_time\"",
-											"                ],",
-											"                \"additionalProperties\": false",
-											"            }",
-											"        }",
-											"        ",
-											"    }",
-											"};",
-											"",
-											"pm.test(\"Статус-код ответа должен быть 200\", function () {",
-											"    pm.expect(",
-											"        pm.response.status,",
-											"        \"Запрос зарегистрированного пользователя должен вернуть ответ со статус-кодом 200\"",
-											"    ).to.be.eql(\"OK\");",
-											"});",
-											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
-											"    pm.expect(",
-											"        pm.response,",
-											"        \"Убедитесь, что для запрошенного эндпоинта корректно настроена пагинация\"",
-											"    ).to.have.jsonSchema({\"type\": \"object\"});",
-											"    pm.response.to.have.jsonSchema(responseSchema);",
-											"});",
-											"pm.test(",
-											"    \"Должна быть возможность фильтрации рецептов через параметр запроса `tags`\",",
-											"    function () {",
-											"        const responseData = pm.response.json();",
-											"        const assert_msg = \"Убедитесь, что ответ на запрос содержит данные, удовлетворяющие условию поиска\"",
-											"        pm.expect(responseData.length > 0, assert_msg);",
-											"",
-											"        let expectedTags = new Set();",
-											"        const params = pm.request.url.query.all()",
-											"        params.forEach(function (param, _, _) {",
-											"            if (param.key === \"tags\") {",
-											"                expectedTags.add(param.value);",
-											"            }",
-											"        });",
-											"",
-											"        let responseTags = new Set();",
-											"        for (elem of responseData.results) {",
-											"            var is_satisfied = false;",
-											"            for (tag of elem.tags) {",
-											"                if (expectedTags.has(tag.slug)) {",
-											"                    is_satisfied = true;",
-											"                    responseTags.add(tag.slug);",
-											"                }",
-											"            };",
-											"            pm.expect(is_satisfied, assert_msg).to.be.true;",
-											"        };",
-											"",
-											"        for (const elem of responseTags) {",
-											"            if (expectedTags.has(elem)) {",
-											"                expectedTags.delete(elem);",
-											"            }",
-											"        }",
-											"        pm.expect(",
-											"            expectedTags.size == 0,",
-											"            \"Убедитесь, что в ответе содержатся рецепты, у которых есть хотя бы один из тегов, указанных в параметрах запроса\"",
-											"        ).to.be.true;",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "apikey",
-									"apikey": [
-										{
-											"key": "value",
-											"value": "Token {{userToken}}",
-											"type": "string"
-										},
-										{
-											"key": "key",
-											"value": "Authorization",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/api/recipes/?tags={{secondTagSlug}}&tags={{thirdTagSlug}}",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"recipes",
-										""
-									],
-									"query": [
-										{
-											"key": "tags",
-											"value": "{{secondTagSlug}}"
-										},
-										{
-											"key": "tags",
-											"value": "{{thirdTagSlug}}"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "get_recipe_detail // No Auth",
 							"event": [
 								{
@@ -5185,19 +4309,6 @@
 											"    \"type\": \"object\",",
 											"    \"properties\":{",
 											"        \"id\": {\"type\": \"number\"},",
-											"        \"tags\": {",
-											"            \"type\": \"array\",",
-											"            \"items\": {",
-											"                \"type\": \"object\",",
-											"                \"properties\": {",
-											"                    \"id\": {\"type\": \"number\"},",
-											"                    \"name\": {\"type\": \"string\"},",
-											"                    \"slug\": {\"type\": \"string\"},",
-											"                },",
-											"                \"required\": [\"id\", \"name\", \"slug\"],",
-											"                \"additionalProperties\": false",
-											"            }",
-											"        },",
 											"        \"author\": {",
 											"            \"type\": \"object\",",
 											"            \"properties\": {",
@@ -5234,7 +4345,7 @@
 											"        \"cooking_time\": {\"type\": \"number\"}",
 											"    },",
 											"    \"required\": [",
-											"        \"id\", \"tags\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
+											"        \"id\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
 											"        \"name\", \"image\", \"text\", \"cooking_time\"",
 											"    ],",
 											"    \"additionalProperties\": false",
@@ -5298,19 +4409,6 @@
 											"    \"type\": \"object\",",
 											"    \"properties\":{",
 											"        \"id\": {\"type\": \"number\"},",
-											"        \"tags\": {",
-											"            \"type\": \"array\",",
-											"            \"items\": {",
-											"                \"type\": \"object\",",
-											"                \"properties\": {",
-											"                    \"id\": {\"type\": \"number\"},",
-											"                    \"name\": {\"type\": \"string\"},",
-											"                    \"slug\": {\"type\": \"string\"},",
-											"                },",
-											"                \"required\": [\"id\", \"name\", \"slug\"],",
-											"                \"additionalProperties\": false",
-											"            }",
-											"        },",
 											"        \"author\": {",
 											"            \"type\": \"object\",",
 											"            \"properties\": {",
@@ -5347,7 +4445,7 @@
 											"        \"cooking_time\": {\"type\": \"number\"}",
 											"    },",
 											"    \"required\": [",
-											"        \"id\", \"tags\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
+											"        \"id\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
 											"        \"name\", \"image\", \"text\", \"cooking_time\"",
 											"    ],",
 											"    \"additionalProperties\": false",
@@ -5539,19 +4637,6 @@
 											"    \"type\": \"object\",",
 											"    \"properties\":{",
 											"        \"id\": {\"type\": \"number\"},",
-											"        \"tags\": {",
-											"            \"type\": \"array\",",
-											"            \"items\": {",
-											"                \"type\": \"object\",",
-											"                \"properties\": {",
-											"                    \"id\": {\"type\": \"number\"},",
-											"                    \"name\": {\"type\": \"string\"},",
-											"                    \"slug\": {\"type\": \"string\"},",
-											"                },",
-											"                \"required\": [\"id\", \"name\", \"slug\"],",
-											"                \"additionalProperties\": false",
-											"            }",
-											"        },",
 											"        \"author\": {",
 											"            \"type\": \"object\",",
 											"            \"properties\": {",
@@ -5588,7 +4673,7 @@
 											"        \"cooking_time\": {\"type\": \"number\"}",
 											"    },",
 											"    \"required\": [",
-											"        \"id\", \"tags\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
+											"        \"id\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
 											"        \"name\", \"image\", \"text\", \"cooking_time\"",
 											"    ],",
 											"    \"additionalProperties\": false",
@@ -5628,7 +4713,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": 25\n    }\n  ],\n  \"tags\": [\n    {{secondTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Нечто съедобное (пробовать на свой страх и риск)\",\n  \"text\": \"Приготовьте как нибудь эти ингредиеты, не забудьте посолить.\",\n  \"cooking_time\": 12\n}",
+									"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": 25\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Нечто съедобное (пробовать на свой страх и риск)\",\n  \"text\": \"Приготовьте как нибудь эти ингредиеты, не забудьте посолить.\",\n  \"cooking_time\": 12\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -5696,7 +4781,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"tags\": [\n    {{firstTagId}},\n    {{secondTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Рецепт без ингредиентов\",\n  \"text\": \"Не знаю как такое готовить\",\n  \"cooking_time\": 90\n}",
+											"raw": "{\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Рецепт без ингредиентов\",\n  \"text\": \"Не знаю как такое готовить\",\n  \"cooking_time\": 90\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -5755,7 +4840,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [],\n  \"tags\": [\n    {{firstTagId}},\n    {{secondTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Неправильный рецепт\",\n  \"text\": \"А ингредиенты я не скажу!\",\n  \"cooking_time\": 15\n}",
+											"raw": "{\n  \"ingredients\": [],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Неправильный рецепт\",\n  \"text\": \"А ингредиенты я не скажу!\",\n  \"cooking_time\": 15\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -5814,7 +4899,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n  {\n    \"id\": 99999,\n    \"amount\": 25\n  }\n  ],\n  \"tags\": [\n    {{firstTagId}},\n    {{secondTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Рецепт с несуществующим ингредиентом\",\n  \"text\": \"Админ, добавь ингредиент!\",\n  \"cooking_time\": 15\n}",
+											"raw": "{\n  \"ingredients\": [\n  {\n    \"id\": 99999,\n    \"amount\": 25\n  }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Рецепт с несуществующим ингредиентом\",\n  \"text\": \"Админ, добавь ингредиент!\",\n  \"cooking_time\": 15\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -5873,7 +4958,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n  {\n      \"id\": {{firstIndredientId}},\n      \"amount\": 0\n  }\n  ],\n  \"tags\": [\n    {{firstTagId}},\n    {{secondTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Некорректное количество ингредиента\",\n  \"text\": \"Возьмите ноль ингредиента...\",\n  \"cooking_time\": 15\n}",
+											"raw": "{\n  \"ingredients\": [\n  {\n      \"id\": {{firstIndredientId}},\n      \"amount\": 0\n  }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Некорректное количество ингредиента\",\n  \"text\": \"Возьмите ноль ингредиента...\",\n  \"cooking_time\": 15\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -5908,7 +4993,8 @@
 													"    ).to.be.eql(\"Bad Request\");",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -5932,243 +5018,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n        \"id\": {{firstIndredientId}},\n        \"amount\": 10\n    },\n    {\n        \"id\": {{firstIndredientId}},\n        \"amount\": 10\n    }\n  ],\n  \"tags\": [\n    {{firstTagId}},\n    {{secondTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Повторяющиеся ингредиенты\",\n  \"text\": \"Двойная порция\",\n  \"cooking_time\": 15\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{baseUrl}}/api/recipes/",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"recipes",
-												""
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "create_recipe_without_tags_field // User",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test(\"Статус-код ответа должен быть 400\", function () {",
-													"    pm.expect(",
-													"        pm.response.status,",
-													"        \"Если в запросе на создание рецепта отсутствует поле `tags` - должен вернуться ответ со статусом 400\"",
-													"    ).to.be.eql(\"Bad Request\");",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"request": {
-										"auth": {
-											"type": "apikey",
-											"apikey": [
-												{
-													"key": "value",
-													"value": "Token {{userToken}}",
-													"type": "string"
-												},
-												{
-													"key": "key",
-													"value": "Authorization",
-													"type": "string"
-												}
-											]
-										},
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    },\n    {\n      \"id\": {{secondIndredientId}},\n      \"amount\": {{secondIngredientAmount}}\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Дичь (возможно, летающая)\",\n  \"text\": \"Сперва поймайте, потом готовьте\",\n  \"cooking_time\": 5\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{baseUrl}}/api/recipes/",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"recipes",
-												""
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "create_recipe_empty_tags // User",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test(\"Статус-код ответа должен быть 400\", function () {",
-													"    pm.expect(",
-													"        pm.response.status,",
-													"        \"Если запрос на создание рецепта содержит пустое поле `tags` - должен вернуться ответ со статусом 400\"",
-													"    ).to.be.eql(\"Bad Request\");",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"request": {
-										"auth": {
-											"type": "apikey",
-											"apikey": [
-												{
-													"key": "value",
-													"value": "Token {{userToken}}",
-													"type": "string"
-												},
-												{
-													"key": "key",
-													"value": "Authorization",
-													"type": "string"
-												}
-											]
-										},
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    },\n    {\n      \"id\": {{secondIndredientId}},\n      \"amount\": {{secondIngredientAmount}}\n    }\n  ],\n  \"tags\": [],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Попробуй съесть\",\n  \"text\": \"Но будь аккуратен\",\n  \"cooking_time\": 5\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{baseUrl}}/api/recipes/",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"recipes",
-												""
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "create_recipe_with_repetitive_tags // User",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test(\"Статус-код ответа должен быть 400\", function () {",
-													"    pm.expect(",
-													"        pm.response.status,",
-													"        \"Если в запросе на создание рецепта содержит повторяющиеся теги - должен вернуться ответ со статусом 400\"",
-													"    ).to.be.eql(\"Bad Request\");",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"request": {
-										"auth": {
-											"type": "apikey",
-											"apikey": [
-												{
-													"key": "value",
-													"value": "Token {{userToken}}",
-													"type": "string"
-												},
-												{
-													"key": "key",
-													"value": "Authorization",
-													"type": "string"
-												}
-											]
-										},
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n    {{firstTagId}},\n    {{firstTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Повторяющиеся теги\",\n  \"text\": \"Проверка валидации\",\n  \"cooking_time\": 5\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{baseUrl}}/api/recipes/",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"recipes",
-												""
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "create_recipe_with_non_existing_tag // User",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test(\"Статус-код ответа должен быть 400\", function () {",
-													"    pm.expect(",
-													"        pm.response.status,",
-													"        \"Если в запросе на создание рецепта указан несуществующий тег - должен вернуться ответ со статусом 400\"",
-													"    ).to.be.eql(\"Bad Request\");",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"request": {
-										"auth": {
-											"type": "apikey",
-											"apikey": [
-												{
-													"key": "value",
-													"value": "Token {{userToken}}",
-													"type": "string"
-												},
-												{
-													"key": "key",
-													"value": "Authorization",
-													"type": "string"
-												}
-											]
-										},
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    },\n    {\n      \"id\": {{secondIndredientId}},\n      \"amount\": {{secondIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n      9876\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Рецепт с несуществующим тегом\",\n  \"text\": \"Тега нет, а хотелось бы\",\n  \"cooking_time\": 5\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n        \"id\": {{firstIndredientId}},\n        \"amount\": 10\n    },\n    {\n        \"id\": {{firstIndredientId}},\n        \"amount\": 10\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Повторяющиеся ингредиенты\",\n  \"text\": \"Двойная порция\",\n  \"cooking_time\": 15\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -6227,7 +5077,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n    {{firstTagId}}\n  ],\n  \"name\": \"Надеюсь, это еда\",\n  \"text\": \"Съесть сырым\",\n  \"cooking_time\": 5\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"name\": \"Надеюсь, это еда\",\n  \"text\": \"Съесть сырым\",\n  \"cooking_time\": 5\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -6286,7 +5136,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n    {{firstTagId}}\n  ],\n  \"image\": \"\",\n  \"name\": \"А фотку я не покажу\",\n  \"text\": \"Приготовить любым способом\",\n  \"cooking_time\": 5\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"image\": \"\",\n  \"name\": \"А фотку я не покажу\",\n  \"text\": \"Приготовить любым способом\",\n  \"cooking_time\": 5\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -6345,7 +5195,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n    {{firstTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"text\": \"Безымянный рецепт\",\n  \"cooking_time\": 5\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"text\": \"Безымянный рецепт\",\n  \"cooking_time\": 5\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -6404,7 +5254,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n    {{firstTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"\",\n  \"text\": \"Название не укажу\",\n  \"cooking_time\": 5\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"\",\n  \"text\": \"Название не укажу\",\n  \"cooking_time\": 5\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -6463,7 +5313,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n    {{firstTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"{{tooLongName}}\",\n  \"text\": \"Рецепт с очень длинным названием\",\n  \"cooking_time\": 5\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"{{tooLongName}}\",\n  \"text\": \"Рецепт с очень длинным названием\",\n  \"cooking_time\": 5\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -6522,7 +5372,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n    {{firstTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Некая еда\",\n  \"cooking_time\": 5\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Некая еда\",\n  \"cooking_time\": 5\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -6581,7 +5431,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n    {{firstTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Неописуемый рецепт\",\n  \"text\": \"\",\n  \"cooking_time\": 5\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Неописуемый рецепт\",\n  \"text\": \"\",\n  \"cooking_time\": 5\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -6640,7 +5490,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n    {{firstTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Не ограниченный по времени рецепт\",\n  \"text\": \"Готовить от 1 минуты до бесконечности\"\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Не ограниченный по времени рецепт\",\n  \"text\": \"Готовить от 1 минуты до бесконечности\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -6699,7 +5549,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n    {{firstTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Сколько готовить - не помню\",\n  \"text\": \"Готовить до готовности\",\n  \"cooking_time\": \"\"\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Сколько готовить - не помню\",\n  \"text\": \"Готовить до готовности\",\n  \"cooking_time\": \"\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -6758,7 +5608,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n    {{firstTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Очень быстрый рецепт\",\n  \"text\": \"Можно не готовить\",\n  \"cooking_time\": 0\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Очень быстрый рецепт\",\n  \"text\": \"Можно не готовить\",\n  \"cooking_time\": 0\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -6805,7 +5655,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    },\n    {\n      \"id\": {{secondIndredientId}},\n      \"amount\": {{secondIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n    {{firstTagId}},\n    {{secondTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Рецепт неавторизованного пользователя\",\n  \"text\": \"Рецепт неавторизованного пользователя\",\n  \"cooking_time\": 5\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    },\n    {\n      \"id\": {{secondIndredientId}},\n      \"amount\": {{secondIngredientAmount}}\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Рецепт неавторизованного пользователя\",\n  \"text\": \"Рецепт неавторизованного пользователя\",\n  \"cooking_time\": 5\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -6869,7 +5719,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": 25\n    }\n  ],\n  \"tags\": [\n    {{secondTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Обновление чужого рецепта\",\n  \"text\": \"Проверка прав доступа.\",\n  \"cooking_time\": 12\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": 25\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Обновление чужого рецепта\",\n  \"text\": \"Проверка прав доступа.\",\n  \"cooking_time\": 12\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -6917,7 +5767,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": 25\n    }\n  ],\n  \"tags\": [\n    {{secondTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Обновление рецепта\",\n  \"text\": \"Проверка прав доступа.\",\n  \"cooking_time\": 12\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": 25\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Обновление рецепта\",\n  \"text\": \"Проверка прав доступа.\",\n  \"cooking_time\": 12\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -6977,7 +5827,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"tags\": [\n    {{secondTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Нет поля с ингредиентами\",\n  \"text\": \"Ингредиенты не указаны\",\n  \"cooking_time\": 12\n}",
+											"raw": "{\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Нет поля с ингредиентами\",\n  \"text\": \"Ингредиенты не указаны\",\n  \"cooking_time\": 12\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -7037,7 +5887,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [],\n  \"tags\": [\n    {{secondTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Пустое поле ингредиентов\",\n  \"text\": \"Ингредиенты не указаны\",\n  \"cooking_time\": 12\n}",
+											"raw": "{\n  \"ingredients\": [],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Пустое поле ингредиентов\",\n  \"text\": \"Ингредиенты не указаны\",\n  \"cooking_time\": 12\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -7097,7 +5947,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n        \"id\": 99999,\n        \"amount\": 20\n    }\n  ],\n  \"tags\": [\n    {{secondTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Пустое поле ингредиентов\",\n  \"text\": \"Ингредиенты не указаны\",\n  \"cooking_time\": 12\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n        \"id\": 99999,\n        \"amount\": 20\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Пустое поле ингредиентов\",\n  \"text\": \"Ингредиенты не указаны\",\n  \"cooking_time\": 12\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -7158,7 +6008,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n  {\n      \"id\": {{firstIndredientId}},\n      \"amount\": 0\n  }\n  ],\n  \"tags\": [\n    {{firstTagId}},\n    {{secondTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Рецепт с некорректным количеством ингридиента\",\n  \"text\": \"Проверка валидации количества ингредиента\",\n  \"cooking_time\": 15\n}",
+											"raw": "{\n  \"ingredients\": [\n  {\n      \"id\": {{firstIndredientId}},\n      \"amount\": 0\n  }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Рецепт с некорректным количеством ингридиента\",\n  \"text\": \"Проверка валидации количества ингредиента\",\n  \"cooking_time\": 15\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -7194,7 +6044,8 @@
 													"    ).to.be.eql(\"Bad Request\");",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -7218,247 +6069,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n        \"id\": {{firstIndredientId}},\n        \"amount\": 10\n    },\n    {\n        \"id\": {{firstIndredientId}},\n        \"amount\": 10\n    }\n  ],\n  \"tags\": [\n    {{firstTagId}},\n    {{secondTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Повторяющиеся ингредиенты (обновление)\",\n  \"text\": \"Двойная порция\",\n  \"cooking_time\": 15\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{baseUrl}}/api/recipes/{{secondRecipeId}}/",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"recipes",
-												"{{secondRecipeId}}",
-												""
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "update_recipe_without_tags_field // Second User",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test(\"Статус-код ответа должен быть 400\", function () {",
-													"    pm.expect(",
-													"        pm.response.status,",
-													"        \"Если в запросе автора на обновление рецепта нет поля `tags` - должен вернуться ответ со статусом 400\"",
-													"    ).to.be.eql(\"Bad Request\");",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"request": {
-										"auth": {
-											"type": "apikey",
-											"apikey": [
-												{
-													"key": "value",
-													"value": "Token {{secondUserToken}}",
-													"type": "string"
-												},
-												{
-													"key": "key",
-													"value": "Authorization",
-													"type": "string"
-												}
-											]
-										},
-										"method": "PATCH",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": 25\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Нет поля с тегами\",\n  \"text\": \"Теги не указаны\",\n  \"cooking_time\": 12\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{baseUrl}}/api/recipes/{{secondRecipeId}}/",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"recipes",
-												"{{secondRecipeId}}",
-												""
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "update_recipe_empty_tags // Second User",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test(\"Статус-код ответа должен быть 400\", function () {",
-													"    pm.expect(",
-													"        pm.response.status,",
-													"        \"Если в запросе автора на обновление рецепта передано пустое поле `tags` - должен вернуться ответ со статусом 400\"",
-													"    ).to.be.eql(\"Bad Request\");",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"request": {
-										"auth": {
-											"type": "apikey",
-											"apikey": [
-												{
-													"key": "value",
-													"value": "Token {{secondUserToken}}",
-													"type": "string"
-												},
-												{
-													"key": "key",
-													"value": "Authorization",
-													"type": "string"
-												}
-											]
-										},
-										"method": "PATCH",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": 25\n    }\n  ],\n  \"tags\": [],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Пустое поле с тегами\",\n  \"text\": \"Теги не указаны\",\n  \"cooking_time\": 12\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{baseUrl}}/api/recipes/{{secondRecipeId}}/",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"recipes",
-												"{{secondRecipeId}}",
-												""
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "update_recipe_with_non_existing_tag // Second User",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test(\"Статус-код ответа должен быть 400\", function () {",
-													"    pm.expect(",
-													"        pm.response.status,",
-													"        \"Если в запросе автора на обновление рецепта указан несуществующий тег - должен вернуться ответ со статусом 400\"",
-													"    ).to.be.eql(\"Bad Request\");",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"request": {
-										"auth": {
-											"type": "apikey",
-											"apikey": [
-												{
-													"key": "value",
-													"value": "Token {{secondUserToken}}",
-													"type": "string"
-												},
-												{
-													"key": "key",
-													"value": "Authorization",
-													"type": "string"
-												}
-											]
-										},
-										"method": "PATCH",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": 25\n    }\n  ],\n  \"tags\": [\n      9876\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Несуществующий тег\",\n  \"text\": \"Несуществующие тег\",\n  \"cooking_time\": 12\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{baseUrl}}/api/recipes/{{secondRecipeId}}/",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"recipes",
-												"{{secondRecipeId}}",
-												""
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "update_recipe_repetitive_tags  // Second User",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test(\"Статус-код ответа должен быть 400\", function () {",
-													"    pm.expect(",
-													"        pm.response.status,",
-													"        \"Если запрос автора на обновление рецепта содержит повторяющиеся теги - должен вернуться ответ со статусом 400\"",
-													"    ).to.be.eql(\"Bad Request\");",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"request": {
-										"auth": {
-											"type": "apikey",
-											"apikey": [
-												{
-													"key": "value",
-													"value": "Token {{secondUserToken}}",
-													"type": "string"
-												},
-												{
-													"key": "key",
-													"value": "Authorization",
-													"type": "string"
-												}
-											]
-										},
-										"method": "PATCH",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n    {{firstTagId}},\n    {{firstTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Повторяющиеся теги (обновление)\",\n  \"text\": \"Проверка валидации\",\n  \"cooking_time\": 5\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n        \"id\": {{firstIndredientId}},\n        \"amount\": 10\n    },\n    {\n        \"id\": {{firstIndredientId}},\n        \"amount\": 10\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Повторяющиеся ингредиенты (обновление)\",\n  \"text\": \"Двойная порция\",\n  \"cooking_time\": 15\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -7518,7 +6129,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n    {{firstTagId}}\n  ],\n  \"image\": \"\",\n  \"name\": \"Рецепт без картинки\",\n  \"text\": \"Картина не приложена\",\n  \"cooking_time\": 5\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"image\": \"\",\n  \"name\": \"Рецепт без картинки\",\n  \"text\": \"Картина не приложена\",\n  \"cooking_time\": 5\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -7578,7 +6189,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n    {{firstTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"\",\n  \"text\": \"Без названия\",\n  \"cooking_time\": 5\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"\",\n  \"text\": \"Без названия\",\n  \"cooking_time\": 5\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -7638,7 +6249,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n    {{firstTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"{{tooLongName}}\",\n  \"text\": \"Рецепт с очень длинным названием\",\n  \"cooking_time\": 5\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"{{tooLongName}}\",\n  \"text\": \"Рецепт с очень длинным названием\",\n  \"cooking_time\": 5\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -7698,7 +6309,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n    {{firstTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Без описания\",\n  \"text\": \"\",\n  \"cooking_time\": 5\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Без описания\",\n  \"text\": \"\",\n  \"cooking_time\": 5\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -7758,7 +6369,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n    {{firstTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Некорректное время готовки (пустая строка)\",\n  \"text\": \"Некорректное время готовки\",\n  \"cooking_time\": \"\"\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Некорректное время готовки (пустая строка)\",\n  \"text\": \"Некорректное время готовки\",\n  \"cooking_time\": \"\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -7818,7 +6429,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"tags\": [\n    {{firstTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Некорректное время готовки\",\n  \"text\": \"Некорректное время готовки\",\n  \"cooking_time\": 0\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": {{firstIngredientAmount}}\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Некорректное время готовки\",\n  \"text\": \"Некорректное время готовки\",\n  \"cooking_time\": 0\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -7878,7 +6489,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": 25\n    }\n  ],\n  \"tags\": [\n    {{secondTagId}}\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Обновление рецепта\",\n  \"text\": \"Проверка прав доступа.\",\n  \"cooking_time\": 12\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": {{firstIndredientId}},\n      \"amount\": 25\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"Обновление рецепта\",\n  \"text\": \"Проверка прав доступа.\",\n  \"cooking_time\": 12\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -9326,20 +7937,6 @@
 									"                \"type\": \"object\",",
 									"                \"properties\":{",
 									"                    \"id\": {\"type\": \"number\"},",
-									"                    \"tags\": {",
-									"                        \"type\": \"array\",",
-									"                        \"items\": {",
-									"                            \"type\": \"object\",",
-									"                            \"properties\": {",
-									"                                \"id\": {\"type\": \"number\"},",
-									"                                \"name\": {\"type\": \"string\"},",
-									"                                \"color\": {\"type\": \"string\"},",
-									"                                \"slug\": {\"type\": \"string\"},",
-									"                            },",
-									"                            \"required\": [\"id\", \"name\", \"slug\"],",
-									"                            \"additionalProperties\": false",
-									"                        }",
-									"                    },",
 									"                    \"author\": {",
 									"                        \"type\": \"object\",",
 									"                        \"properties\": {",
@@ -9376,13 +7973,12 @@
 									"                    \"cooking_time\": {\"type\": \"number\"}",
 									"                },",
 									"                \"required\": [",
-									"                    \"id\", \"tags\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
+									"                    \"id\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
 									"                    \"name\", \"image\", \"text\", \"cooking_time\"",
 									"                ],",
 									"                \"additionalProperties\": false",
 									"            }",
 									"        }",
-									"        ",
 									"    }",
 									"};",
 									"",
@@ -9481,19 +8077,6 @@
 									"                \"type\": \"object\",",
 									"                \"properties\":{",
 									"                    \"id\": {\"type\": \"number\"},",
-									"                    \"tags\": {",
-									"                        \"type\": \"array\",",
-									"                        \"items\": {",
-									"                            \"type\": \"object\",",
-									"                            \"properties\": {",
-									"                                \"id\": {\"type\": \"number\"},",
-									"                                \"name\": {\"type\": \"string\"},",
-									"                                \"slug\": {\"type\": \"string\"},",
-									"                            },",
-									"                            \"required\": [\"id\", \"name\", \"slug\"],",
-									"                            \"additionalProperties\": false",
-									"                        }",
-									"                    },",
 									"                    \"author\": {",
 									"                        \"type\": \"object\",",
 									"                        \"properties\": {",
@@ -9530,7 +8113,7 @@
 									"                    \"cooking_time\": {\"type\": \"number\"}",
 									"                },",
 									"                \"required\": [",
-									"                    \"id\", \"tags\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
+									"                    \"id\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
 									"                    \"name\", \"image\", \"text\", \"cooking_time\"",
 									"                ],",
 									"                \"additionalProperties\": false",
@@ -9606,19 +8189,6 @@
 									"                \"type\": \"object\",",
 									"                \"properties\":{",
 									"                    \"id\": {\"type\": \"number\"},",
-									"                    \"tags\": {",
-									"                        \"type\": \"array\",",
-									"                        \"items\": {",
-									"                            \"type\": \"object\",",
-									"                            \"properties\": {",
-									"                                \"id\": {\"type\": \"number\"},",
-									"                                \"name\": {\"type\": \"string\"},",
-									"                                \"slug\": {\"type\": \"string\"},",
-									"                            },",
-									"                            \"required\": [\"id\", \"name\", \"slug\"],",
-									"                            \"additionalProperties\": false",
-									"                        }",
-									"                    },",
 									"                    \"author\": {",
 									"                        \"type\": \"object\",",
 									"                        \"properties\": {",
@@ -9655,7 +8225,7 @@
 									"                    \"cooking_time\": {\"type\": \"number\"}",
 									"                },",
 									"                \"required\": [",
-									"                    \"id\", \"tags\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
+									"                    \"id\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
 									"                    \"name\", \"image\", \"text\", \"cooking_time\"",
 									"                ],",
 									"                \"additionalProperties\": false",
@@ -9759,19 +8329,6 @@
 									"                \"type\": \"object\",",
 									"                \"properties\":{",
 									"                    \"id\": {\"type\": \"number\"},",
-									"                    \"tags\": {",
-									"                        \"type\": \"array\",",
-									"                        \"items\": {",
-									"                            \"type\": \"object\",",
-									"                            \"properties\": {",
-									"                                \"id\": {\"type\": \"number\"},",
-									"                                \"name\": {\"type\": \"string\"},",
-									"                                \"slug\": {\"type\": \"string\"},",
-									"                            },",
-									"                            \"required\": [\"id\", \"name\", \"slug\"],",
-									"                            \"additionalProperties\": false",
-									"                        }",
-									"                    },",
 									"                    \"author\": {",
 									"                        \"type\": \"object\",",
 									"                        \"properties\": {",
@@ -9808,7 +8365,7 @@
 									"                    \"cooking_time\": {\"type\": \"number\"}",
 									"                },",
 									"                \"required\": [",
-									"                    \"id\", \"tags\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
+									"                    \"id\", \"author\", \"ingredients\", \"is_favorited\", \"is_in_shopping_cart\",",
 									"                    \"name\", \"image\", \"text\", \"cooking_time\"",
 									"                ],",
 									"                \"additionalProperties\": false",
@@ -10571,7 +9128,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": 1123,\n      \"amount\": 10\n    }\n  ],\n  \"tags\": [\n    1,\n    2\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"string\",\n  \"text\": \"string\",\n  \"cooking_time\": 1\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": 1123,\n      \"amount\": 10\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"string\",\n  \"text\": \"string\",\n  \"cooking_time\": 1\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -10631,7 +9188,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": 1123,\n      \"amount\": 10\n    }\n  ],\n  \"tags\": [\n    1,\n    2\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"string\",\n  \"text\": \"string\",\n  \"cooking_time\": 1\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": 1123,\n      \"amount\": 10\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"string\",\n  \"text\": \"string\",\n  \"cooking_time\": 1\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -10691,7 +9248,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": 1123,\n      \"amount\": 10\n    }\n  ],\n  \"tags\": [\n    1,\n    2\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"string\",\n  \"text\": \"string\",\n  \"cooking_time\": 1\n}",
+											"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": 1123,\n      \"amount\": 10\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"string\",\n  \"text\": \"string\",\n  \"cooking_time\": 1\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -10753,7 +9310,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": 1123,\n      \"amount\": 10\n    }\n  ],\n  \"tags\": [\n    1,\n    2\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"string\",\n  \"text\": \"string\",\n  \"cooking_time\": 1\n}",
+									"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": 1123,\n      \"amount\": 10\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"string\",\n  \"text\": \"string\",\n  \"cooking_time\": 1\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -10813,7 +9370,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": 1123,\n      \"amount\": 10\n    }\n  ],\n  \"tags\": [\n    1,\n    2\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"string\",\n  \"text\": \"string\",\n  \"cooking_time\": 1\n}",
+									"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": 1123,\n      \"amount\": 10\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"string\",\n  \"text\": \"string\",\n  \"cooking_time\": 1\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -10873,7 +9430,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": 1123,\n      \"amount\": 10\n    }\n  ],\n  \"tags\": [\n    1,\n    2\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"string\",\n  \"text\": \"string\",\n  \"cooking_time\": 1\n}",
+									"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": 1123,\n      \"amount\": 10\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"string\",\n  \"text\": \"string\",\n  \"cooking_time\": 1\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -10933,7 +9490,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": 1123,\n      \"amount\": 10\n    }\n  ],\n  \"tags\": [\n    1,\n    2\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"string\",\n  \"text\": \"string\",\n  \"cooking_time\": 1\n}",
+									"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": 1123,\n      \"amount\": 10\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"string\",\n  \"text\": \"string\",\n  \"cooking_time\": 1\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -10993,7 +9550,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": 1123,\n      \"amount\": 10\n    }\n  ],\n  \"tags\": [\n    1,\n    2\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"string\",\n  \"text\": \"string\",\n  \"cooking_time\": 1\n}",
+									"raw": "{\n  \"ingredients\": [\n    {\n      \"id\": 1123,\n      \"amount\": 10\n    }\n  ],\n  \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==\",\n  \"name\": \"string\",\n  \"text\": \"string\",\n  \"cooking_time\": 1\n}",
 									"options": {
 										"raw": {
 											"language": "json"
