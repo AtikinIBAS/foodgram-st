@@ -6,11 +6,9 @@ from .serializers import (
     UserSerializer,
     RecipeSerializer,
     IngredientSerializer,
-    IngredientAmountSerializer,
-    FavoriteSerializer,
-    ShoppingCartSerializer,
     FollowSerializer,
-    AvatarSerializer
+    AvatarSerializer,
+    RecipeIngredientSerializer
 )
 from users.models import User, Follow
 from recipes.models import Recipe, Ingredient, Favorite, ShoppingCart
