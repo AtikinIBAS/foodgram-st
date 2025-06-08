@@ -1,0 +1,22 @@
+[
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "username": "testuser",
+      "email": "test@example.com",
+      "password": "pbkdf2_sha256$260000$randomsalt$hashedpassword"
+    }
+  },
+  {
+    "model": "recipes.recipe",
+    "pk": 1,
+    "fields": {
+      "name": "Тестовый рецепт",
+      "author": 1,
+      "pub_date": "2025-06-03T12:00:00Z",
+      "text": "Описание рецепта",
+      "cooking_time": 30
+    }
+  }
+]
