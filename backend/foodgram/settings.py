@@ -25,8 +25,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'rest_framework',
-    'rest_framework.authtoken',
+    "rest_framework",
+    "rest_framework.authtoken",
     "django_filters",
     "djoser",
     "recipes",
@@ -104,9 +104,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ],
-    "DEFAULT_FILTER_BACKENDS": [
-        "django_filters.rest_framework.DjangoFilterBackend"
-    ],
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
     "DEFAULT_PAGINATION_CLASS": "api.pagination.LimitPageNumberPagination",
     "PAGE_SIZE": 6,
 }
@@ -126,8 +124,8 @@ DJOSER = {
         "user": "api.serializers.UserSerializer",
         "current_user": "api.serializers.UserSerializer",
     },
-    'PERMISSIONS': {
-        'set_password': ['rest_framework.permissions.IsAuthenticated'],
+    "PERMISSIONS": {
+        "set_password": ["rest_framework.permissions.IsAuthenticated"],
     },
 }
 
@@ -145,9 +143,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -157,5 +155,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-#print("DB_NAME:", os.getenv("DB_NAME"))
-#print("POSTGRES_USER:", os.getenv("POSTGRES_USER"))
+# print("DB_NAME:", os.getenv("DB_NAME"))
+# print("POSTGRES_USER:", os.getenv("POSTGRES_USER"))

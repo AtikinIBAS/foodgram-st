@@ -20,12 +20,14 @@ from django.urls import path, include
 from django.http import HttpResponse
 from api.views import redirect_short_link
 
+
 def home(request):
     return HttpResponse("Добро пожаловать в Foodgram!")
 
+
 urlpatterns = [
-    path('', home, name='home'),
+    path("", home, name="home"),
     path("admin/", admin.site.urls),
-    path('api/', include('api.urls')),
+    path("api/", include("api.urls")),
     path("s/<slug:slug>/", redirect_short_link, name="short-link"),
 ]

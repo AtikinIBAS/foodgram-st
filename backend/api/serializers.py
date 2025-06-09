@@ -8,6 +8,7 @@ from drf_extra_fields.fields import Base64ImageField
 MIN_COOKING_TIME = 1
 MAX_COOKING_TIME = 32000
 
+
 class UserSerializer(BaseUserSerializer):
     avatar = serializers.SerializerMethodField()
     is_subscribed = serializers.SerializerMethodField()
@@ -35,11 +36,11 @@ class UserSerializer(BaseUserSerializer):
         }
 
     def to_internal_value(self, data):
-        email = data.get('email')
+        email = data.get("email")
         if not email:
-            raise serializers.ValidationError({'email': 'Это поле обязательно.'})
+            raise serializers.ValidationError({"email": "Это поле обязательно."})
         validated_data = super().to_internal_value(data)
-        validated_data['email'] = email
+        validated_data["email"] = email
         return validated_data
 
     def create(self, validated_data):
@@ -54,21 +55,24 @@ class UserSerializer(BaseUserSerializer):
 
     def get_avatar(self, obj):
         request = self.context["request"]
-        if obj.avatar and hasattr(obj.avatar, 'url'):
+        if obj.avatar and hasattr(obj.avatar, "url"):
             return request.build_absolute_uri(obj.avatar.url)
         return None
 
     def get_recipes_in_cart(self, obj):
         return obj.shopping_carts.count()
 
+
 class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredient
         fields = ("id", "name", "measurement_unit")
 
+
 class IngredientAmountSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     amount = serializers.IntegerField()
+
 
 class RecipeIngredientSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField(source="ingredient.id")
@@ -80,6 +84,7 @@ class RecipeIngredientSerializer(serializers.ModelSerializer):
         model = RecipeIngredient
         fields = ("id", "name", "measurement_unit", "amount")
 
+
 class RecipeSerializer(serializers.ModelSerializer):
     author = UserSerializer(read_only=True)
     ingredients_display = RecipeIngredientSerializer(
@@ -89,8 +94,10 @@ class RecipeSerializer(serializers.ModelSerializer):
     image = Base64ImageField()
     is_favorited = serializers.SerializerMethodField()
     is_in_shopping_cart = serializers.SerializerMethodField()
-    authorId = serializers.ReadOnlyField(source='author.id')
-    cooking_time = serializers.IntegerField(min_value=MIN_COOKING_TIME, max_value=MAX_COOKING_TIME)
+    authorId = serializers.ReadOnlyField(source="author.id")
+    cooking_time = serializers.IntegerField(
+        min_value=MIN_COOKING_TIME, max_value=MAX_COOKING_TIME
+    )
 
     class Meta:
         model = Recipe
@@ -105,7 +112,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             "cooking_time",
             "is_favorited",
             "authorId",
-            'is_in_shopping_cart',
+            "is_in_shopping_cart",
         )
 
     def validate(self, data):
@@ -125,7 +132,7 @@ class RecipeSerializer(serializers.ModelSerializer):
                 RecipeIngredient(
                     recipe=recipe,
                     ingredient=Ingredient.objects.get(id=ingredient_data["id"]),
-                    amount=ingredient_data["amount"]
+                    amount=ingredient_data["amount"],
                 )
                 for ingredient_data in ingredients_data
             ]
@@ -142,7 +149,9 @@ class RecipeSerializer(serializers.ModelSerializer):
         instance.name = validated_data.get("name", instance.name)
         instance.image = validated_data.get("image", instance.image)
         instance.text = validated_data.get("text", instance.text)
-        instance.cooking_time = validated_data.get("cooking_time", instance.cooking_time)
+        instance.cooking_time = validated_data.get(
+            "cooking_time", instance.cooking_time
+        )
         instance.save()
         if ingredients_data is not None:
             self._update_ingredients(instance, ingredients_data)
@@ -165,15 +174,18 @@ class RecipeSerializer(serializers.ModelSerializer):
             return request.user.shopping_carts.filter(recipe=obj).exists()
         return False
 
+
 class FavoriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Favorite
         fields = ("user", "recipe")
 
+
 class ShoppingCartSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShoppingCart
         fields = ("user", "recipe")
+
 
 class FollowSerializer(serializers.ModelSerializer):
     following = UserSerializer(read_only=True)
@@ -187,7 +199,7 @@ class FollowSerializer(serializers.ModelSerializer):
     def get_recipes(self, obj):
         request = self.context["request"]
         recipes_limit = request.query_params.get("recipes_limit", 3)
-        recipes = obj.following.recipes.all()[:int(recipes_limit)]
+        recipes = obj.following.recipes.all()[: int(recipes_limit)]
         return RecipeSerializer(recipes, many=True, context={"request": request}).data
 
     def get_recipes_count(self, obj):
@@ -195,13 +207,14 @@ class FollowSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
-        following_data = data.pop('following')
+        following_data = data.pop("following")
         data.update(following_data)
         return data
+
 
 class AvatarSerializer(serializers.ModelSerializer):
     avatar = Base64ImageField()
 
     class Meta:
         model = User
-        fields = ('avatar',)
+        fields = ("avatar",)
