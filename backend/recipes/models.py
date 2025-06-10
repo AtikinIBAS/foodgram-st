@@ -47,8 +47,7 @@ class Recipe(models.Model):
         ordering = ["-id"]
         constraints = [
             models.UniqueConstraint(
-                fields=["author", "name"],
-                name="unique_recipe_author_name"
+                fields=["author", "name"], name="unique_recipe_author_name"
             )
         ]
 

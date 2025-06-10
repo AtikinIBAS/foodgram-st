@@ -99,7 +99,7 @@ class AccountViewSet(viewsets.ModelViewSet):
             if not user.avatar:
                 return Response(
                     {"detail": "Аватар не установлен"},
-                    status=status.HTTP_400_BAD_REQUEST
+                    status=status.HTTP_400_BAD_REQUEST,
                 )
             user.avatar.delete()
             user.avatar = None
