@@ -9,6 +9,7 @@ from .serializers import (
     FollowSerializer,
     AvatarSerializer,
     RecipeIngredientSerializer,
+    ShortRecipeSerializer,
 )
 from users.models import User, Follow
 from recipes.models import Recipe, Ingredient, Favorite, ShoppingCart
@@ -25,9 +26,9 @@ from django.contrib.auth import update_session_auth_hash
 
 class AccountViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
     pagination_class = LimitPageNumberPagination
+    serializer_class = UserSerializer
 
     @action(
         detail=False, methods=["get"], permission_classes=[permissions.IsAuthenticated]
@@ -51,8 +52,8 @@ class AccountViewSet(viewsets.ModelViewSet):
             return Response(
                 {"detail": "Уже подписан"}, status=status.HTTP_400_BAD_REQUEST
             )
-        Follow.objects.create(follower=user, following=author)
-        serializer = UserSerializer(author, context={"request": request})
+        follow = Follow.objects.create(follower=user, following=author)
+        serializer = FollowSerializer(follow, context={"request": request})
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @subscribe.mapping.delete
@@ -83,16 +84,27 @@ class AccountViewSet(viewsets.ModelViewSet):
 
     @action(
         detail=False,
-        methods=["put"],
+        methods=["put", "delete"],
         url_path="me/avatar",
         permission_classes=[permissions.IsAuthenticated],
     )
     def update_avatar(self, request):
         user = request.user
-        serializer = AvatarSerializer(user, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        if request.method == "PUT":
+            serializer = AvatarSerializer(user, data=request.data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        elif request.method == "DELETE":
+            if not user.avatar:
+                return Response(
+                    {"detail": "Аватар не установлен"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            user.avatar.delete()
+            user.avatar = None
+            user.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(
         detail=False, methods=["post"], permission_classes=[permissions.IsAuthenticated]
@@ -117,9 +129,7 @@ class AccountViewSet(viewsets.ModelViewSet):
         user.set_password(new_password)
         user.save()
         update_session_auth_hash(request, user)
-        return Response(
-            {"detail": "Пароль успешно изменён."}, status=status.HTTP_200_OK
-        )
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
@@ -131,7 +141,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     pagination_class = LimitPageNumberPagination
 
     def get_queryset(self):
-        queryset = Recipe.objects.all()
+        queryset = self.queryset.all()
         user = self.request.user
         author_id = self.request.query_params.get("author", None)
 
@@ -168,7 +178,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
                     {"detail": "Уже в избранном"}, status=status.HTTP_400_BAD_REQUEST
                 )
             Favorite.objects.create(user=user, recipe=recipe)
-            serializer = RecipeSerializer(recipe, context={"request": request})
+            serializer = ShortRecipeSerializer(recipe, context={"request": request})
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         elif request.method == "DELETE":
             favorite = user.favorites.filter(recipe=recipe).first()
@@ -195,7 +205,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
                     status=status.HTTP_400_BAD_REQUEST,
                 )
             ShoppingCart.objects.create(user=user, recipe=recipe)
-            serializer = RecipeSerializer(recipe, context={"request": request})
+            serializer = ShortRecipeSerializer(recipe, context={"request": request})
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         elif request.method == "DELETE":
@@ -247,7 +257,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         short_link = request.build_absolute_uri(
             reverse("short-link", args=[recipe.short_uuid])
         )
-        return Response({"short_link": short_link})
+        return Response({"short-link": short_link})
 
 
 class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
