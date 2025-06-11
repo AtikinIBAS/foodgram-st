@@ -37,10 +37,12 @@ class UserSerializer(BaseUserSerializer):
         last_name = data.get("last_name")
 
         if not email or email.strip() == "":
-            raise serializers.ValidationError({"email": "Email не может быть пустым."})
+            raise serializers.ValidationError(
+                {"email": "Это поле не может быть пустым."}
+            )
         if len(email) > 254:
             raise serializers.ValidationError(
-                {"email": "Email не может превышать 254 символа."}
+                {"email": "Максимальная длина email 254 символа."}
             )
         if User.objects.filter(email=email).exists():
             raise serializers.ValidationError(
@@ -49,11 +51,11 @@ class UserSerializer(BaseUserSerializer):
 
         if not username or username.strip() == "":
             raise serializers.ValidationError(
-                {"username": "Имя пользователя не может быть пустым."}
+                {"username": "Это поле не может быть пустым."}
             )
         if len(username) > 150:
             raise serializers.ValidationError(
-                {"username": "Имя пользователя не может превышать 150 символов."}
+                {"username": "Максимальная длина имени пользователя 150 символов."}
             )
         if User.objects.filter(username=username).exists():
             raise serializers.ValidationError(
@@ -66,20 +68,20 @@ class UserSerializer(BaseUserSerializer):
 
         if not first_name or first_name.strip() == "":
             raise serializers.ValidationError(
-                {"first_name": "Имя не может быть пустым."}
+                {"first_name": "Это поле не может быть пустым."}
             )
         if len(first_name) > 150:
             raise serializers.ValidationError(
-                {"first_name": "Имя не может превышать 150 символов."}
+                {"first_name": "Максимальная длина имени 150 символов."}
             )
 
         if not last_name or last_name.strip() == "":
             raise serializers.ValidationError(
-                {"last_name": "Фамилия не может быть пустой."}
+                {"last_name": "Это поле не может быть пустым."}
             )
         if len(last_name) > 150:
             raise serializers.ValidationError(
-                {"last_name": "Фамилия не может превышать 150 символов."}
+                {"last_name": "Максимальная длина фамилии 150 символов."}
             )
 
         validated_data = super().to_internal_value(data)
@@ -91,13 +93,13 @@ class UserSerializer(BaseUserSerializer):
 
     def validate_email(self, value):
         if len(value) > 254:
-            raise serializers.ValidationError("Email не может превышать 254 символа.")
+            raise serializers.ValidationError("Максимальная длина email 254 символа.")
         return value
 
     def validate_username(self, value):
         if len(value) > 150:
             raise serializers.ValidationError(
-                "Имя пользователя не может превышать 150 символов."
+                "Максимальная длина имени пользователя 150 символов."
             )
         if not re.match(r"^[\w.@+-]+\Z", value):
             raise serializers.ValidationError(
@@ -107,13 +109,13 @@ class UserSerializer(BaseUserSerializer):
 
     def validate_first_name(self, value):
         if len(value) > 150:
-            raise serializers.ValidationError("Имя не может превышать 150 символов.")
+            raise serializers.ValidationError("Максимальная длина имени 150 символов.")
         return value
 
     def validate_last_name(self, value):
         if len(value) > 150:
             raise serializers.ValidationError(
-                "Фамилия не может превышать 150 символов."
+                "Максимальная длина фамилии 150 символов."
             )
         return value
 
@@ -128,8 +130,16 @@ class UserSerializer(BaseUserSerializer):
 
     def to_representation(self, instance):
         request = self.context.get("request")
+        if request and request.method == "POST":
+            return {
+                "id": instance.id,
+                "email": instance.email,
+                "username": instance.username,
+                "first_name": instance.first_name,
+                "last_name": instance.last_name,
+            }
         avatar_url = None
-        if instance.avatar and hasattr(instance.avatar, "url"):
+        if instance.avatar and hasattr(instance.avatar, "url") and request:
             avatar_url = request.build_absolute_uri(instance.avatar.url)
         return {
             "id": instance.id,
@@ -159,7 +169,7 @@ class IngredientAmountSerializer(serializers.Serializer):
     def validate(self, data):
         if data["amount"] < MIN_AMOUNT:
             raise serializers.ValidationError(
-                {"amount": f"Количество должно быть не менее {MIN_AMOUNT}."}
+                {"amount": "Количество ингредиента должно быть не менее 1."}
             )
         return data
 
@@ -183,16 +193,20 @@ class ShortRecipeSerializer(serializers.ModelSerializer):
 
 class RecipeSerializer(serializers.ModelSerializer):
     author = UserSerializer(read_only=True)
-    ingredients_display = RecipeIngredientSerializer(
-        source="recipeingredient_set", many=True, read_only=True
+    ingredients = RecipeIngredientSerializer(
+        many=True, read_only=True, source="recipeingredient_set"
     )
-    ingredients = IngredientAmountSerializer(many=True, write_only=True)
+    ingredients_input = IngredientAmountSerializer(
+        many=True, write_only=True, required=True
+    )
     image = Base64ImageField(required=True)
     is_favorited = serializers.SerializerMethodField()
     is_in_shopping_cart = serializers.SerializerMethodField()
     cooking_time = serializers.IntegerField(
-        min_value=MIN_COOKING_TIME, max_value=MAX_COOKING_TIME
+        min_value=MIN_COOKING_TIME, max_value=MAX_COOKING_TIME, required=True
     )
+    name = serializers.CharField(max_length=200, required=True)
+    text = serializers.CharField(required=True)
 
     class Meta:
         model = Recipe
@@ -203,15 +217,21 @@ class RecipeSerializer(serializers.ModelSerializer):
             "image",
             "text",
             "ingredients",
-            "ingredients_display",
+            "ingredients_input",
             "cooking_time",
             "is_favorited",
             "is_in_shopping_cart",
         )
 
+    def to_internal_value(self, data):
+        if "ingredients" in data and "ingredients_input" not in data:
+            data = data.copy()
+            data["ingredients_input"] = data.pop("ingredients")
+        return super().to_internal_value(data)
+
     def validate(self, data):
         request = self.context["request"]
-        ingredients_data = data.get("ingredients", [])
+        ingredients_data = data.get("ingredients_input", [])
 
         if not ingredients_data:
             raise serializers.ValidationError(
@@ -226,10 +246,11 @@ class RecipeSerializer(serializers.ModelSerializer):
 
         if request and request.method in ["POST", "PATCH"]:
             name = data.get("name")
-            if Recipe.objects.filter(name=name, author=request.user).exists():
+            if name and Recipe.objects.filter(name=name, author=request.user).exists():
                 if request.method == "POST" or (
                     request.method == "PATCH"
-                    and not Recipe.objects.filter(
+                    and not self.instance
+                    or not Recipe.objects.filter(
                         id=self.instance.id, name=name, author=request.user
                     ).exists()
                 ):
@@ -242,8 +263,35 @@ class RecipeSerializer(serializers.ModelSerializer):
         return data
 
     def validate_image(self, value):
-        if not value or value == "":
-            raise serializers.ValidationError("Поле image не может быть пустым.")
+        if not value:
+            raise serializers.ValidationError("Изображение обязательно для заполнения.")
+        return value
+
+    def validate_name(self, value):
+        if not value:
+            raise serializers.ValidationError("Название рецепта не может быть пустым.")
+        if len(value) > 200:
+            raise serializers.ValidationError(
+                "Название рецепта не может превышать 200 символов."
+            )
+        return value
+
+    def validate_text(self, value):
+        if not value:
+            raise serializers.ValidationError("Описание рецепта не может быть пустым.")
+        return value
+
+    def validate_cooking_time(self, value):
+        if value is None:
+            raise serializers.ValidationError("Время приготовления обязательно.")
+        if value < MIN_COOKING_TIME:
+            raise serializers.ValidationError(
+                "Время приготовления должно быть не менее 1 минуты."
+            )
+        if value > MAX_COOKING_TIME:
+            raise serializers.ValidationError(
+                f"Время приготовления не может превышать {MAX_COOKING_TIME} минут."
+            )
         return value
 
     def _update_ingredients(self, recipe, ingredients_data):
@@ -269,13 +317,13 @@ class RecipeSerializer(serializers.ModelSerializer):
             RecipeIngredient.objects.bulk_create(recipe_ingredients)
 
     def create(self, validated_data):
-        ingredients_data = validated_data.pop("ingredients", [])
+        ingredients_data = validated_data.pop("ingredients_input")
         recipe = Recipe.objects.create(**validated_data)
         self._update_ingredients(recipe, ingredients_data)
         return recipe
 
     def update(self, instance, validated_data):
-        ingredients_data = validated_data.pop("ingredients", None)
+        ingredients_data = validated_data.pop("ingredients_input", None)
         instance.name = validated_data.get("name", instance.name)
         instance.image = validated_data.get("image", instance.image)
         instance.text = validated_data.get("text", instance.text)
@@ -287,16 +335,32 @@ class RecipeSerializer(serializers.ModelSerializer):
             self._update_ingredients(instance, ingredients_data)
         return instance
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        request = self.context.get("request")
+        author_data = data["author"]
+        author_data["is_subscribed"] = (
+            request.user.following.filter(following=instance.author).exists()
+            if request and request.user.is_authenticated
+            else False
+        )
+        avatar_url = None
+        if (
+            instance.author.avatar
+            and hasattr(instance.author.avatar, "url")
+            and request
+        ):
+            avatar_url = request.build_absolute_uri(instance.author.avatar.url)
+        author_data["avatar"] = avatar_url
+        ingredients = RecipeIngredient.objects.filter(recipe=instance)
+        data["ingredients"] = RecipeIngredientSerializer(ingredients, many=True).data
+        return data
+
     def get_is_favorited(self, obj):
         request = self.context["request"]
         if request and request.user.is_authenticated:
             return request.user.favorites.filter(recipe=obj).exists()
         return False
-
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        data["ingredients"] = data.pop("ingredients_display", [])
-        return data
 
     def get_is_in_shopping_cart(self, obj):
         request = self.context["request"]
@@ -327,7 +391,7 @@ class FollowSerializer(serializers.ModelSerializer):
         fields = ("following", "recipes", "recipes_count")
 
     def get_recipes(self, obj):
-        request = self.context["request"]
+        request = self.context.get("request")
         recipes_limit = request.query_params.get("recipes_limit", 3)
         recipes = obj.following.recipes.all()[: int(recipes_limit)]
         return ShortRecipeSerializer(
@@ -340,8 +404,18 @@ class FollowSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         data = super().to_representation(instance)
         following_data = data.pop("following")
-        data.update(following_data)
-        return data
+        result = {
+            "id": following_data["id"],
+            "email": following_data["email"],
+            "username": following_data["username"],
+            "first_name": following_data["first_name"],
+            "last_name": following_data["last_name"],
+            "is_subscribed": following_data.get("is_subscribed", False),
+            "avatar": following_data.get("avatar", None),
+            "recipes": data["recipes"],
+            "recipes_count": data["recipes_count"],
+        }
+        return result
 
 
 class AvatarSerializer(serializers.ModelSerializer):
@@ -354,6 +428,6 @@ class AvatarSerializer(serializers.ModelSerializer):
     def validate(self, data):
         if not data.get("avatar"):
             raise serializers.ValidationError(
-                {"avatar": "Поле avatar обязательно для заполнения."}
+                {"avatar": "Изображение обязательно для заполнения."}
             )
         return data
